@@ -2,12 +2,10 @@ const express = require("express");
 const router = express.Router();
 let tasks = require("../task.json").tasks;
 
-// GET /tasks: Retrieve all tasks
 router.get("/", (req, res) => {
   res.status(200).json(tasks);
 });
 
-// GET /tasks/:id: Retrieve a specific task by ID
 router.get("/:id", (req, res) => {
   const task = tasks.find((t) => t.id === parseInt(req.params.id));
   if (!task) {
@@ -16,7 +14,6 @@ router.get("/:id", (req, res) => {
   res.status(200).json(task);
 });
 
-// POST /tasks: Create a new task
 router.post("/", (req, res) => {
   const { title, description, completed } = req.body;
   if (!title || !description || typeof completed !== "boolean") {
@@ -33,7 +30,6 @@ router.post("/", (req, res) => {
   res.status(201).json(newTask);
 });
 
-// PUT /tasks/:id: Update an existing task by ID
 router.put("/:id", (req, res) => {
   const { title, description, completed } = req.body;
   const task = tasks.find((t) => t.id === parseInt(req.params.id));
@@ -50,7 +46,6 @@ router.put("/:id", (req, res) => {
   res.status(200).json(task);
 });
 
-// DELETE /tasks/:id: Delete a task by ID
 router.delete("/:id", (req, res) => {
   const taskIndex = tasks.findIndex((t) => t.id === parseInt(req.params.id));
   if (taskIndex === -1) return res.status(404).send("Task not found");
